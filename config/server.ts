@@ -4,4 +4,9 @@ export default ({ env }) => ({
   app: {
     keys: env.array('APP_KEYS'),
   },
+  webhooks: {
+    defaultHeaders: {
+      Authorization: `Bearer ${env('STRAPI_WEBHOOK_SECRET')}`,
+    },
+  },
 });
