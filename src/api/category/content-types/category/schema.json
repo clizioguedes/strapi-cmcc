@@ -4,7 +4,7 @@
   "info": {
     "singularName": "category",
     "pluralName": "categories",
-    "displayName": "Category",
+    "displayName": "Categoria",
     "description": "Organize your content into categories"
   },
   "options": {
@@ -18,14 +18,14 @@
     "slug": {
       "type": "uid"
     },
+    "description": {
+      "type": "text"
+    },
     "articles": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::article.article",
       "mappedBy": "category"
-    },
-    "description": {
-      "type": "text"
     }
   }
 }

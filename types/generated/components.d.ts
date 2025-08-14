@@ -3,7 +3,7 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
-    displayName: 'Media';
+    displayName: 'Arquivo';
     icon: 'file-video';
   };
   attributes: {
@@ -27,11 +27,11 @@ export interface SharedRichText extends Struct.ComponentSchema {
   collectionName: 'components_shared_rich_texts';
   info: {
     description: '';
-    displayName: 'Rich text';
+    displayName: 'Texto';
     icon: 'align-justify';
   };
   attributes: {
-    body: Schema.Attribute.RichText;
+    body: Schema.Attribute.Blocks;
   };
 }
 
