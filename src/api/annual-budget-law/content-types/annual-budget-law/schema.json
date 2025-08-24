@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "annual_budget_laws",
+  "info": {
+    "singularName": "annual-budget-law",
+    "pluralName": "annual-budget-laws",
+    "displayName": "Lei Orçamentária Anual"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

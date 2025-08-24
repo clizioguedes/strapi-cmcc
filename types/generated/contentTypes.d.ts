@@ -438,6 +438,70 @@ export interface ApiAboutAbout extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiAnnualBudgetLawAnnualBudgetLaw
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'annual_budget_laws';
+  info: {
+    displayName: 'Lei Or\u00E7ament\u00E1ria Anual';
+    pluralName: 'annual-budget-laws';
+    singularName: 'annual-budget-law';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::annual-budget-law.annual-budget-law'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAnnualFinancialStatementAnnualFinancialStatement
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'annual_financial_statements';
+  info: {
+    displayName: 'Demonstrativo de contas anuais';
+    pluralName: 'annual-financial-statements';
+    singularName: 'annual-financial-statement';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    folder: Schema.Attribute.Enumeration<
+      ['DCA - 2018', 'DCA - 2019', 'DCA - 2020']
+    > &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::annual-financial-statement.annual-financial-statement'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -1142,6 +1206,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::about.about': ApiAboutAbout;
+      'api::annual-budget-law.annual-budget-law': ApiAnnualBudgetLawAnnualBudgetLaw;
+      'api::annual-financial-statement.annual-financial-statement': ApiAnnualFinancialStatementAnnualFinancialStatement;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;

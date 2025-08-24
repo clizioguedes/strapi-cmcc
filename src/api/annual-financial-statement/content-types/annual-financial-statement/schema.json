@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "annual_financial_statements",
+  "info": {
+    "singularName": "annual-financial-statement",
+    "pluralName": "annual-financial-statements",
+    "displayName": "Demonstrativo de contas anuais"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "folder": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "DCA - 2018",
+        "DCA - 2019",
+        "DCA - 2020"
+      ]
+    }
+  }
+}
