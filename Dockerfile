@@ -38,18 +38,18 @@ FROM base AS runner
 WORKDIR /app
 
 # Criação de usuário não-root
-RUN addgroup --system --gid 1001 strapi
-RUN adduser --system --uid 1001 strapi
+# RUN addgroup --system --gid 1001 strapi
+# RUN adduser --system --uid 1001 strapi
 
 # Copiar arquivos necessários
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-RUN mkdir -p /app/public/uploads \
-    && chown -R strapi:strapi /app/public/uploads \
-    && chmod -R 775 /app/public/uploads
+# RUN mkdir -p /app/public/uploads \
+#     && chown -R strapi:strapi /app/public/uploads \
+#     && chmod -R 775 /app/public/uploads
 
-USER strapi
+# USER strapi
 
 EXPOSE 1337
 
