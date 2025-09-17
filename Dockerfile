@@ -45,7 +45,9 @@ RUN adduser --system --uid 1001 strapi
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-RUN mkdir -p /app/public/uploads && chown -R strapi:strapi /app/public/uploads
+RUN mkdir -p /app/public/uploads \
+    && chown -R strapi:strapi /app/public/uploads \
+    && chmod -R 775 /app/public/uploads
 
 USER strapi
 
