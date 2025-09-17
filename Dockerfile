@@ -56,4 +56,5 @@ ENV NODE_ENV=production
 ENV PORT=1337
 
 ENV HOST="0.0.0.0"
+
 CMD ["npm", "run", "start"]
