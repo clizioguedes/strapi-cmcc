@@ -1,45 +1,56 @@
-# ==============================
-# 1) Build Stage
-# ==============================
-FROM node:22-alpine AS builder
+# syntax=docker.io/docker/dockerfile:1
 
-# Instala dependências básicas (sharp precisa de python e build-base)
+FROM node:22-alpine AS base
+
+# Install dependencies only when needed
 RUN apk add --no-cache python3 make g++ libc6-compat build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
-
 WORKDIR /app
 
-# Copia package.json e package-lock.json
-COPY package*.json ./
+# ---------------------------
+# Install dependencies based on the preferred package manager
+# ---------------------------
+FROM base AS deps
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Instala dependências
-RUN npm ci
-
-# Copia todo o projeto
+# ---------------------------
+# Rebuild the source code only when needed
+# ---------------------------
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN \
+  if [ -f yarn.lock ]; then yarn build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-# Build da aplicação Strapi
-RUN npm run build
-
-# ==============================
-# 2) Production Stage
-# ==============================
-FROM node:22-alpine AS runner
-
+# ---------------------------
+# Runner
+# ---------------------------
+FROM base AS runner
 WORKDIR /app
 
-# Instala apenas dependências necessárias para runtime
-COPY package*.json ./
-RUN npm ci --omit=dev
+# Criação de usuário não-root
+RUN addgroup --system --gid 1001 strapi
+RUN adduser --system --uid 1001 strapi
 
-# Copia build e código do builder
-COPY --from=builder /app/. /app/
+# Copiar arquivos necessários
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app ./
 
-# Porta padrão do Strapi
+USER strapi
+
 EXPOSE 1337
 
-# Configura o host para rodar dentro de container
 ENV NODE_ENV=production
-ENV HOST=0.0.0.0
 ENV PORT=1337
 
+ENV HOST="0.0.0.0"
 CMD ["npm", "run", "start"]
