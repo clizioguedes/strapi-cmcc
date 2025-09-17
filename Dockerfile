@@ -56,6 +56,4 @@ ENV NODE_ENV=production
 ENV PORT=1337
 
 ENV HOST="0.0.0.0"
-
-CMD sh -c "mkdir -p /app/public/uploads && chown -R strapi:strapi /app/public/uploads && npm run start"
-
+CMD ["npm", "run", "start"]
