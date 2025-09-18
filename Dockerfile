@@ -37,18 +37,13 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 strapi
-RUN adduser --system --uid 1001 strapi
+# RUN addgroup --system --gid 1001 strapi
+# RUN adduser --system --uid 1001 strapi
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-
-USER strapi
+# USER strapi
 
 EXPOSE 1337
 ENV NODE_ENV=production
