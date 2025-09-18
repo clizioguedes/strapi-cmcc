@@ -37,19 +37,18 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
-# Criação de usuário não-root
-# RUN addgroup --system --gid 1001 strapi
-# RUN adduser --system --uid 1001 strapi
+RUN addgroup --system --gid 1001 strapi
+RUN adduser --system --uid 1001 strapi
 
-# Copiar arquivos necessários
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-# RUN mkdir -p /app/public/uploads \
-#     && chown -R strapi:strapi /app/public/uploads \
-#     && chmod -R 775 /app/public/uploads
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# USER strapi
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+USER strapi
 
 EXPOSE 1337
 
