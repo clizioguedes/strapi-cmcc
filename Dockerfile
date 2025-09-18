@@ -48,11 +48,11 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-EXPOSE 1337
+USER strapi
 
+EXPOSE 1337
 ENV NODE_ENV=production
 ENV PORT=1337
-
 ENV HOST="0.0.0.0"
 
 CMD ["npm", "run", "start"]
