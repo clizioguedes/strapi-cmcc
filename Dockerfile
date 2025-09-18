@@ -43,10 +43,9 @@ RUN adduser --system --uid 1001 strapi
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN mkdir -p /app/public/uploads \
+    && chown -R strapi:strapi /app/public/uploads \
+    && chmod -R 777 /app/public/uploads
 
 USER strapi
 
